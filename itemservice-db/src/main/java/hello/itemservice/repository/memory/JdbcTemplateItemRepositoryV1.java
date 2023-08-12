@@ -5,6 +5,7 @@ import hello.itemservice.repository.ItemRepository;
 import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -62,7 +63,7 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
         try {
             Item item = template.queryForObject(sql, itemRowMapper(), id);
             return Optional.of(item);
-        } catch (NullPointerException e) {
+        } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
@@ -110,6 +111,5 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
             return item;
         };
     }
-
 
 }
